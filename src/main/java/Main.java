@@ -13,7 +13,7 @@ public class Main {
 
         try {
             Thread.sleep(5000);
-            twitter.updateStatus("Tweet sent from java");
+            twitter.updateStatus("Tweet sent from java 25.5.2020");
         } catch (TwitterException e) {
             e.printStackTrace();
             System.out.println("Twitter Exception");
