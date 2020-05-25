@@ -16,6 +16,7 @@ public class Main {
             twitter.updateStatus("Tweet sent from java");
         } catch (TwitterException e) {
             e.printStackTrace();
+            System.out.println("Twitter Exception");
         } catch (InterruptedException e) {
             e.printStackTrace();
             System.out.println("Worker woke up");
