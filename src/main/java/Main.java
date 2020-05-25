@@ -6,19 +6,11 @@ import twitter4j.conf.ConfigurationBuilder;
 public class Main {
 
     public static void main(String[] args) {
-
-        System.out.println("consumerkey: " + System.getenv("h_consumerKey"));
-        System.out.println("consumersecret: " + System.getenv("h_consumerSecret"));
-        System.out.println("accesstoken: " + System.getenv("h_accessToken"));
-        System.out.println("accesstokensecret: " + System.getenv("h_accessTokenSecret"));
-
-        ConfigurationBuilder cb = new ConfigurationBuilder();
-        TwitterFactory tf = new TwitterFactory(cb.build());
-        Twitter twitter = tf.getInstance();
+        Twitter twitter = configureTwitter();
 
         try {
             Thread.sleep(5000);
-            twitter.updateStatus("Tweet sent from java 25.5.2020");
+            twitter.updateStatus("Tweet sent from java 25.5.2020-2");
         } catch (TwitterException e) {
             e.printStackTrace();
             System.out.println("Twitter Exception");
@@ -26,5 +18,16 @@ public class Main {
             e.printStackTrace();
             System.out.println("Worker woke up");
         }
+    }
+
+    private static Twitter configureTwitter(){
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true)
+                .setOAuthConsumerKey(System.getenv("h_consumerKey"))
+                .setOAuthConsumerSecret(System.getenv("h_consumerSecret"))
+                .setOAuthAccessToken(System.getenv("h_accessToken"))
+                .setOAuthAccessTokenSecret(System.getenv("h_accessTokenSecret"));
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        return tf.getInstance();
     }
 }
