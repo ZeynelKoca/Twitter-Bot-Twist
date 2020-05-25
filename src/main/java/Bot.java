@@ -28,6 +28,7 @@ public class Bot {
         try {
             Thread.sleep(5000);
             twitter.updateStatus(text);
+            System.out.println("New tweet has been sent: " + text);
         } catch (TwitterException e) {
             System.out.println("Twitter Exception:");
             e.printStackTrace();
