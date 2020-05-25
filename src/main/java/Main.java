@@ -7,7 +7,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println(System.getenv("h_consumerKey"));
+        System.out.println("consumerkey: " + System.getenv("h_consumerKey"));
+        System.out.println("consumersecret: " + System.getenv("h_consumerSecret"));
+        System.out.println("accesstoken: " + System.getenv("h_accessToken"));
+        System.out.println("accesstokensecret: " + System.getenv("h_accessTokenSecret"));
 
         ConfigurationBuilder cb = new ConfigurationBuilder();
         TwitterFactory tf = new TwitterFactory(cb.build());
