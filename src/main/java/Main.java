@@ -13,7 +13,7 @@ public class Main {
 
         try {
             Thread.sleep(5000);
-            twitter.updateStatus("Tweet sent from Bot Sisko github");
+            twitter.updateStatus("Tweet sent from java");
         } catch (TwitterException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
