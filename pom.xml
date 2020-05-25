@@ -18,7 +18,7 @@
                     <assembleDirectory>target</assembleDirectory>
                     <programs>
                         <program>
-                            <mainClass>Main</mainClass>
+                            <mainClass>Bot</mainClass>
                             <name>worker</name>
                         </program>
                     </programs>
