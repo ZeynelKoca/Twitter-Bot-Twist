@@ -21,19 +21,15 @@ public class Bot {
     public static void main(String[] args) {
         configureTwitter();
 
-        sendTweet("Test123");
+        //sendTweet("Tweet");
     }
 
     private static void sendTweet(String text) {
         try {
-            Thread.sleep(5000);
             twitter.updateStatus(text);
             System.out.println("New tweet has been sent: " + text);
         } catch (TwitterException e) {
             System.out.println("Twitter Exception:");
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            System.out.println("Worker woke up:");
             e.printStackTrace();
         }
     }
