@@ -70,7 +70,6 @@ public class Bot {
         }
     }
 
-    //https://stackoverflow.com/a/24409106
     public static long getDayCount(String start, String end) {
         long diff = -1;
         try {
@@ -80,7 +79,7 @@ public class Bot {
             //time is always 00:00:00, so rounding should help to ignore the missing hour when going from winter to summer time, as well as the extra hour in the other direction
             diff = Math.round((dateEnd.getTime() - dateStart.getTime()) / (double) 86400000);
         } catch (Exception e) {
-            //handle the exception according to your own situation
+            e.printStackTrace();
         }
         return diff;
     }
