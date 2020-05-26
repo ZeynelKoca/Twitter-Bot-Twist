@@ -1,6 +1,8 @@
 # Twitter-Bot-Sisko
 A simple Twitter bot that calculates how many days are left until a specific date. The bot runs on a public Heroku server and goes through a scheduled task once every day in order to tweet how many days are left.
 
+You can find the bot on Twitter @BotSisko or click [here](https://twitter.com/BotSisko)
+
 
 ## Usage
 In the Bot.java class there's a method called configureTwitter(). In here, there are 4 lines of code which have comments at the end of them. You need to change these lines of code so that you can use the bot on your own account. You'll need a Twitter Developer app for this in order to get your API keys.
