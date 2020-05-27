@@ -8,6 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Bot {
@@ -32,14 +34,10 @@ public class Bot {
     public static void main(String[] args) {
         configureTwitter();
 
-        Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 17);
-        today.set(Calendar.MINUTE, 0);
-        today.set(Calendar.SECOND, 0);
 
-        // every day at 17:00 you run your task
-        Timer timer = new Timer();
-        timer.schedule(birthdayCounter, today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)); // period: 1 day
+        // Schedule task to be run once every 24 hours
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(birthdayCounter, 0, 1, TimeUnit.DAYS);
     }
 
     private static TimerTask birthdayCounter = new TimerTask() {
