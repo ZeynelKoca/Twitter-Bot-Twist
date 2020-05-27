@@ -4,9 +4,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -44,15 +42,13 @@ public class Bot {
         @Override
         public void run() {
 
-            while (daysLeft > 0) {
-                daysLeft = getDayCount(simpleDateFormat.format(new Date()), "26.10.2020");
-                if (daysLeft == 1) {
-                    sendTweet(daysLeft + " day left until my birthday");
-                } else if (daysLeft == 0) {
-                    sendTweet("Today is my 21st birthday!");
-                } else {
-                    sendTweet(daysLeft + " days left until my birthday");
-                }
+            daysLeft = getDayCount(simpleDateFormat.format(new Date()), "26.10.2020");
+            if (daysLeft == 1) {
+                sendTweet(daysLeft + " day left until my birthday");
+            } else if (daysLeft == 0) {
+                sendTweet("Today is my 21st birthday!");
+            } else {
+                sendTweet(daysLeft + " days left until my birthday");
             }
             sendTweet("Today is my 21st birthday!");
         }
