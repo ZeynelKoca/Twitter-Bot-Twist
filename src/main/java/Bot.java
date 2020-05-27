@@ -50,7 +50,6 @@ public class Bot {
             } else {
                 sendTweet(daysLeft + " days left until my birthday");
             }
-            sendTweet("Today is my 21st birthday!");
         }
     };
 
