@@ -5,7 +5,7 @@ You can find the bot on Twitter @BotSisko or click [here](https://twitter.com/Bo
 
 
 ## Usage
-In the Bot.java class there's a method called configureTwitter(). In here, there are 4 lines of code which have comments at the end of them. You need to change these lines of code so that you can use the bot on your own account. You'll need a Twitter Developer app for this in order to get your API keys.
+In the Config.java class there's a constructor method called Config(). In here, there are 4 lines of code which have comments at the end of them. You need to change these lines of code so that you can use the bot on your own account. You'll need a Twitter Developer app for this in order to get your API keys.
 For example, this is the first line you need to edit:
 ```
 .setOAuthConsumerKey(System.getenv("h_consumerKey")) //Twitter API key
