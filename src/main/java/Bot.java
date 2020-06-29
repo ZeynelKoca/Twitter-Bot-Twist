@@ -1,11 +1,9 @@
+import API.Item;
+import API.TwistApi;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.conf.ConfigurationBuilder;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimerTask;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -14,44 +12,16 @@ public class Bot {
 
     public static Twitter twitter;
 
-    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-    private static long daysLeft = 999;
-
-
-    private static void configureTwitter() {
-        ConfigurationBuilder cb = new ConfigurationBuilder();
-        cb.setDebugEnabled(true)
-                .setOAuthConsumerKey(System.getenv("h_consumerKey")) //Twitter API key
-                .setOAuthConsumerSecret(System.getenv("h_consumerSecret")) //Twitter API secret key
-                .setOAuthAccessToken(System.getenv("h_accessToken")) //Twitter Access token
-                .setOAuthAccessTokenSecret(System.getenv("h_accessTokenSecret")); //Twitter Access token secret
-        TwitterFactory tf = new TwitterFactory(cb.build());
-        twitter = tf.getInstance();
-    }
+    private static TwistApi twist;
 
     public static void main(String[] args) {
-        configureTwitter();
+        twitter = new Config().getTwitterInstance();
+        twist = TwistApi.getInstance();
 
-
-        // Schedule task to be run once every 24 hours
+        // Schedule task to be run once every 15 minutes
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(birthdayCounter, 0, 1, TimeUnit.DAYS);
+        scheduler.scheduleAtFixedRate(twistAnimeUpdateRunnable, 0, 15, TimeUnit.MINUTES);
     }
-
-    private static TimerTask birthdayCounter = new TimerTask() {
-        @Override
-        public void run() {
-
-            daysLeft = getDayCount(simpleDateFormat.format(new Date()), "26.10.2020");
-            if (daysLeft == 1) {
-                sendTweet(daysLeft + " day left until my birthday");
-            } else if (daysLeft == 0) {
-                sendTweet("Today is my 21st birthday!");
-            } else {
-                sendTweet(daysLeft + " days left until my birthday");
-            }
-        }
-    };
 
     private static void sendTweet(String text) {
         try {
@@ -63,17 +33,16 @@ public class Bot {
         }
     }
 
-    public static long getDayCount(String start, String end) {
-        long diff = -1;
-        try {
-            Date dateStart = simpleDateFormat.parse(start);
-            Date dateEnd = simpleDateFormat.parse(end);
-
-            //time is always 00:00:00, so rounding should help to ignore the missing hour when going from winter to summer time, as well as the extra hour in the other direction
-            diff = Math.round((dateEnd.getTime() - dateStart.getTime()) / (double) 86400000);
-        } catch (Exception e) {
-            e.printStackTrace();
+    private static Runnable twistAnimeUpdateRunnable = new Runnable() {
+        public void run() {
+            if(twist.hasBeenUpdated()){
+                List<Item> items = twist.getUpdatedItems();
+                for(Item item : items){
+                    sendTweet(item.description + " watch it @ " + item.link);
+                }
+                twist.setLastUpdatedItem(items.get(0));
+            }
         }
-        return diff;
-    }
+    };
+
 }
