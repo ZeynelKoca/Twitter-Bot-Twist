@@ -7,15 +7,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TwistApi {
+public class Twist {
 
-    private static TwistApi instance;
+    private static Twist instance;
 
     private Item lastUpdatedItem;
 
-    public static TwistApi getInstance() {
+    public static Twist getInstance() {
         if(instance == null)
-            instance = new TwistApi();
+            instance = new Twist();
 
         return instance;
     }

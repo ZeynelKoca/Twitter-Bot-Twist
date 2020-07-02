@@ -1,5 +1,5 @@
 import API.Item;
-import API.TwistApi;
+import API.Twist;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
@@ -12,11 +12,11 @@ public class Bot {
 
     public static Twitter twitter;
 
-    private static TwistApi twist;
+    private static Twist twist;
 
     public static void main(String[] args) {
         twitter = new Config().getTwitterInstance();
-        twist = TwistApi.getInstance();
+        twist = Twist.getInstance();
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(twistAnimeUpdateRunnable, 0, 5, TimeUnit.MINUTES);
