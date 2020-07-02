@@ -18,7 +18,6 @@ public class Bot {
         twitter = new Config().getTwitterInstance();
         twist = TwistApi.getInstance();
 
-        // Schedule task to be run once every 15 minutes
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(twistAnimeUpdateRunnable, 0, 5, TimeUnit.MINUTES);
     }
