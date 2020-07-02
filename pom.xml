@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>Twitter</groupId>
-    <artifactId>Bot-Sisko</artifactId>
+    <artifactId>Bot-Twitter</artifactId>
     <version>1.0</version>
 
     <build>
