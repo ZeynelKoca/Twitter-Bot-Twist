@@ -20,7 +20,7 @@ public class Bot {
 
         // Schedule task to be run once every 15 minutes
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(twistAnimeUpdateRunnable, 0, 15, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(twistAnimeUpdateRunnable, 0, 5, TimeUnit.MINUTES);
     }
 
     private static void sendTweet(String text) {
@@ -44,5 +44,4 @@ public class Bot {
             }
         }
     };
-
 }
