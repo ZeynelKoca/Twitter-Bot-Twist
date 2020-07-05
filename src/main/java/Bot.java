@@ -3,6 +3,7 @@ import API.Twist;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -36,6 +37,7 @@ public class Bot {
         public void run() {
             if(twist.hasBeenUpdated()){
                 List<Item> items = twist.getUpdatedItems();
+                Collections.reverse(items);
                 for(Item item : items){
                     sendTweet(item.description + " watch it @ " + item.link);
                 }
