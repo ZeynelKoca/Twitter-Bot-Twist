@@ -37,7 +37,6 @@ public class Bot {
         public void run() {
             if(twist.hasBeenUpdated()){
                 List<Item> items = twist.getUpdatedItems();
-                Collections.reverse(items);
                 for(Item item : items){
                     sendTweet(item.description + " watch it @ " + item.link);
                 }
