@@ -3,6 +3,7 @@ import API.Twist;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -36,11 +37,16 @@ public class Bot {
     private static Runnable twistAnimeUpdateRunnable = new Runnable() {
         public void run() {
             if(twist.hasBeenUpdated()){
-                List<Item> items = twist.getUpdatedItems();
-                for(Item item : items){
+                List<ArrayList> temp = twist.getUpdatedItems();
+                ArrayList<Item> updatedEpisodes = temp.get(0);
+                ArrayList<Item> updatedAnime = temp.get(1);
+                for(Item item : updatedEpisodes){
                     sendTweet(item.description + " watch it @ " + item.link);
                 }
-                twist.setLastUpdatedItem(items.get(0));
+                for(Item item : updatedAnime){
+                    sendTweet(item.title + " has just been added to Twist! Watch it @ " + item.link);
+                }
+                twist.setLastUpdatedItem(updatedEpisodes.get(0));
             }
         }
     };
