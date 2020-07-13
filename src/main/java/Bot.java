@@ -21,7 +21,7 @@ public class Bot {
         twist = Twist.getInstance();
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(twistAnimeUpdateRunnable, 0, 5, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(twistAnimeUpdateRunnable, 0, 1, TimeUnit.MINUTES);
     }
 
     private static void sendTweet(String text) {
@@ -36,20 +36,16 @@ public class Bot {
 
     private static Runnable twistAnimeUpdateRunnable = new Runnable() {
         public void run() {
-            System.out.println("before if last updated: " + twist.lastUpdatedItem.description);
             if(twist.hasBeenUpdated()){
                 List<ArrayList> temp = twist.getUpdatedItems();
                 ArrayList<Item> updatedEpisodes = temp.get(0);
                 ArrayList<Item> updatedAnime = temp.get(1);
-                for(Item item : updatedEpisodes){
-                    System.out.println(item.description);
+                for(Item item : updatedEpisodes)
                     sendTweet(item.description + " watch it @ " + item.link);
-                }
-                for(Item item : updatedAnime){
-                    System.out.println(item.description);
+
+                for(Item item : updatedAnime)
                     sendTweet(item.title + " has just been added to Twist! Watch it @ " + item.link);
-                }
-                System.out.println("last item: " + twist.getItems().get(0).description);
+
                 twist.setLastUpdatedItem(twist.getItems().get(0));
             }
         }

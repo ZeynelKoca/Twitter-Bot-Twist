@@ -13,7 +13,7 @@ public class Twist {
 
     private static Twist instance;
 
-    public Item lastUpdatedItem;
+    private Item lastUpdatedItem;
 
     public static Twist getInstance() {
         if (instance == null)
@@ -53,9 +53,9 @@ public class Twist {
         ArrayList<Item> updatedEpisodes = getUpdatedEpisodes(items);
         ArrayList<Item> updatedAnime = getUpdatedAnime(updatedEpisodes);
 
-        for(Item item : updatedAnime){
-            for(Item episodeItem : updatedEpisodes){
-                if(episodeItem.id == item.id)
+        for (Item item : updatedAnime) {
+            for (Item episodeItem : updatedEpisodes) {
+                if (episodeItem.id == item.id)
                     updatedEpisodes.remove(episodeItem);
             }
         }
@@ -89,18 +89,17 @@ public class Twist {
     private ArrayList<Item> getUpdatedEpisodes(List<Item> items) {
         ArrayList<Item> updatedEpisodes = new ArrayList<Item>();
         for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).id != lastUpdatedItem.id) {
+            if (!items.get(i).description.equalsIgnoreCase(lastUpdatedItem.description))
                 updatedEpisodes.add(items.get(i));
-            } else {
+            else
                 break;
-            }
         }
         return updatedEpisodes;
     }
 
-    private boolean containsAnime(int animeId, ArrayList<Item> list){
-        for(Item item : list){
-            if(item.id == animeId)
+    private boolean containsAnime(int animeId, ArrayList<Item> list) {
+        for (Item item : list) {
+            if (item.id == animeId)
                 return true;
         }
         return false;
