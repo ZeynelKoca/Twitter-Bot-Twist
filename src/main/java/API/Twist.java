@@ -13,7 +13,7 @@ public class Twist {
 
     private static Twist instance;
 
-    private Item lastUpdatedItem;
+    public Item lastUpdatedItem;
 
     public static Twist getInstance() {
         if (instance == null)
