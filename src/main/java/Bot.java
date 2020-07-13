@@ -41,11 +41,14 @@ public class Bot {
                 ArrayList<Item> updatedEpisodes = temp.get(0);
                 ArrayList<Item> updatedAnime = temp.get(1);
                 for(Item item : updatedEpisodes){
+                    System.out.println(item.description);
                     sendTweet(item.description + " watch it @ " + item.link);
                 }
                 for(Item item : updatedAnime){
+                    System.out.println(item.description);
                     sendTweet(item.title + " has just been added to Twist! Watch it @ " + item.link);
                 }
+                System.out.println("last item: " + twist.getItems().get(0).description);
                 twist.setLastUpdatedItem(twist.getItems().get(0));
             }
         }
