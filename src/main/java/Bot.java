@@ -21,7 +21,7 @@ public class Bot {
         twist = Twist.getInstance();
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(twistAnimeUpdateRunnable, 0, 1, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(twistAnimeUpdateRunnable, 0, 10, TimeUnit.MINUTES);
     }
 
     private static void sendTweet(String text) {
