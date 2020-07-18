@@ -2,6 +2,7 @@ package API;
 
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.net.URL;
@@ -14,6 +15,7 @@ public class Twist {
     private static Twist instance;
 
     private Item lastUpdatedItem;
+    public static boolean isSiteWorking = true;
 
     public static Twist getInstance() {
         if (instance == null)
@@ -28,11 +30,18 @@ public class Twist {
             InputStreamReader reader = new InputStreamReader(base.openStream());
             Gson gson = new Gson();
             Page page = gson.fromJson(reader, Page.class);
+            this.isSiteWorking = true;
             return page.items;
+        } catch (IOException e) {
+            System.out.println("Site not working:");
+            e.printStackTrace();
+            this.isSiteWorking = false;
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
+            this.isSiteWorking = false;
+            return null;
         }
-        return null;
     }
 
     public boolean hasBeenUpdated() {

@@ -1,5 +1,6 @@
 import API.Item;
 import API.Twist;
+import twitter4j.DirectMessage;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
@@ -24,6 +25,15 @@ public class Bot {
         scheduler.scheduleAtFixedRate(twistAnimeUpdateRunnable, 0, 10, TimeUnit.MINUTES);
     }
 
+    private static void sendDirectMessage(String username, String message) {
+        try {
+            twitter.sendDirectMessage(username, message);
+            System.out.println("New direct message has been sent to " + username);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static void sendTweet(String text) {
         try {
             twitter.updateStatus(text);
@@ -36,17 +46,21 @@ public class Bot {
 
     private static Runnable twistAnimeUpdateRunnable = new Runnable() {
         public void run() {
-            if(twist.hasBeenUpdated()){
-                List<ArrayList> temp = twist.getUpdatedItems();
-                ArrayList<Item> updatedEpisodes = temp.get(0);
-                ArrayList<Item> updatedAnime = temp.get(1);
-                for(Item item : updatedEpisodes)
-                    sendTweet(item.description + " watch it @ " + item.link);
+            if (twist.isSiteWorking) {
+                if (twist.hasBeenUpdated()) {
+                    List<ArrayList> temp = twist.getUpdatedItems();
+                    ArrayList<Item> updatedEpisodes = temp.get(0);
+                    ArrayList<Item> updatedAnime = temp.get(1);
+                    for (Item item : updatedEpisodes)
+                        sendTweet(item.description + " watch it @ " + item.link);
 
-                for(Item item : updatedAnime)
-                    sendTweet(item.title + " has just been added to Twist! Watch it @ " + item.link);
+                    for (Item item : updatedAnime)
+                        sendTweet(item.title + " has just been added to Twist! Watch it @ " + item.link);
 
-                twist.setLastUpdatedItem(twist.getItems().get(0));
+                    twist.setLastUpdatedItem(twist.getItems().get(0));
+                }
+            } else {
+                sendDirectMessage("lolsisko", "Encountered an exception when trying to visit https://twist.moe/feed/episodes?format=json.");
             }
         }
     };
