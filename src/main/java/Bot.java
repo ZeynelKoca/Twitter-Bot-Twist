@@ -52,6 +52,7 @@ public class Bot {
                     twist.setLastUpdatedItem(twist.getItems().get(0));
                 }
             } else {
+                System.out.println("CAN'T ACCESS TWIST.MOE");
                 sendDirectMessage("lolsisko", "Encountered an exception when trying to visit https://twist.moe/feed/episodes?format=json.");
             }
         }
