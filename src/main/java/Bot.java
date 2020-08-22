@@ -22,7 +22,7 @@ public class Bot {
         scheduler.scheduleAtFixedRate(twistAnimeUpdateRunnable, 0, 10, TimeUnit.MINUTES);
     }
 
-    private static void sendDirectMessage(String username, String message) {
+    public static void sendDirectMessage(String username, String message) {
         try {
             twitter.sendDirectMessage(username, message);
             System.out.println("New direct message has been sent to " + username);
@@ -43,7 +43,7 @@ public class Bot {
 
     private static Runnable twistAnimeUpdateRunnable = new Runnable() {
         public void run() {
-            if (twist.isSiteWorking) {
+            if (twist.isSiteWorking()) {
                 if (twist.hasBeenUpdated()) {
                     List<Item> items = twist.getUpdatedItems();
                     for (Item item : items)

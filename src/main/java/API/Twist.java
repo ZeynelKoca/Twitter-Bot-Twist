@@ -13,7 +13,6 @@ public class Twist {
     private static Twist instance;
 
     private Item lastUpdatedItem;
-    public static boolean isSiteWorking = true;
 
     public static Twist getInstance() {
         if (instance == null)
@@ -22,22 +21,31 @@ public class Twist {
         return instance;
     }
 
+    public boolean isSiteWorking(){
+        try {
+            URL base = new URL("https://twist.moe/feed/episodes?format=json");
+            base.openStream();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Site not working:");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public List<Item> getItems() {
         try {
             URL base = new URL("https://twist.moe/feed/episodes?format=json");
             InputStreamReader reader = new InputStreamReader(base.openStream());
             Gson gson = new Gson();
             Page page = gson.fromJson(reader, Page.class);
-            this.isSiteWorking = true;
             return page.items;
         } catch (IOException e) {
             System.out.println("Site not working:");
             e.printStackTrace();
-            this.isSiteWorking = false;
             return null;
         } catch (Exception e) {
             e.printStackTrace();
-            this.isSiteWorking = false;
             return null;
         }
     }
