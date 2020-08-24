@@ -2,7 +2,6 @@ package API;
 
 import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
@@ -11,6 +10,8 @@ import java.util.List;
 public class Twist {
 
     private static Twist instance;
+
+    public boolean siteDown;
 
     private Item lastUpdatedItem;
     private InputStreamReader reader;
