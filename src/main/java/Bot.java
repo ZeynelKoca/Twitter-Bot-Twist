@@ -52,8 +52,14 @@ public class Bot {
                     twist.setLastUpdatedItem(twist.getItems().get(0));
                 }
             } else {
-                System.out.println("CAN'T ACCESS TWIST.MOE");
+                System.out.println("CAN'T ACCESS TWIST.MOE THREAD SLEEP FOR 30 MINUTES");
                 sendDirectMessage("lolsisko", "Encountered an exception when trying to visit https://twist.moe/feed/episodes?format=json.");
+                try {
+                    TimeUnit.MINUTES.sleep(30);
+                } catch (InterruptedException e) {
+                    System.out.println("Thread sleeping interrupted:");
+                    e.printStackTrace();
+                }
             }
         }
     };
