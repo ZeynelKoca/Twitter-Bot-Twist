@@ -11,8 +11,6 @@ public class Twist {
 
     private static Twist instance;
 
-    public boolean siteDown;
-
     private Item lastUpdatedItem;
     private InputStreamReader reader;
 
@@ -67,5 +65,8 @@ public class Twist {
 
     public void setLastUpdatedItem(Item item) {
         this.lastUpdatedItem = item;
+    }
+    public Item getLastUpdatedItem(){
+        return this.lastUpdatedItem;
     }
 }

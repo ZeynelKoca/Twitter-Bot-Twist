@@ -44,20 +44,18 @@ public class Bot {
     private static Runnable twistAnimeUpdateRunnable = new Runnable() {
         public void run() {
             if (twist.isSiteWorking()) {
-                twist.siteDown = false;
                 if (twist.hasBeenUpdated()) {
                     List<Item> items = twist.getUpdatedItems();
                     for (Item item : items)
                         sendTweet(item.description + " watch it @ " + item.link);
 
                     twist.setLastUpdatedItem(twist.getItems().get(0));
+                } else{
+                    System.out.println("Site working, but no new anime update. Last updated item: " + twist.getLastUpdatedItem().link);
                 }
             } else {
-                if(!twist.siteDown) {
                     System.out.println("CAN'T ACCESS TWIST.MOE THREAD SLEEP FOR 30 MINUTES");
                     sendDirectMessage("lolsisko", "Encountered an exception when trying to visit https://twist.moe/feed/episodes?format=json.");
-                    twist.siteDown = true;
-                }
                 try {
                     TimeUnit.MINUTES.sleep(30);
                 } catch (InterruptedException e) {
