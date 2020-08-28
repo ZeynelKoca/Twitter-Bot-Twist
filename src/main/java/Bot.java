@@ -18,6 +18,7 @@ public class Bot {
     public static void main(String[] args) {
         twitter = new Config().getTwitterInstance();
         twist = Twist.getInstance();
+        twist.isSiteWorking = true;
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(twistAnimeUpdateRunnable, 0, 10, TimeUnit.MINUTES);
@@ -44,28 +45,17 @@ public class Bot {
 
     private static Runnable twistAnimeUpdateRunnable = new Runnable() {
         public void run() {
-            counter++;
-            if (twist.isSiteWorking()) {
+            if (twist.isSiteWorking) {
                 if (twist.hasBeenUpdated()) {
                     List<Item> items = twist.getUpdatedItems();
                     for (Item item : items)
                         sendTweet(item.description + " watch it @ " + item.link);
 
                     twist.setLastUpdatedItem(twist.getItems().get(0));
-                } else {
-                    if (counter % 5 == 0)
-                        System.out.println("Site working, but no new anime update. Last updated item: " + twist.getLastUpdatedItem().link);
                 }
             } else {
-                counter = 0;
-                System.out.println("CAN'T ACCESS TWIST.MOE THREAD SLEEP FOR 30 MINUTES");
+                System.out.println("CAN'T ACCESS TWIST.MOE");
                 sendDirectMessage("lolsisko", "Encountered an exception when trying to visit https://twist.moe/feed/episodes?format=json.");
-                try {
-                    TimeUnit.MINUTES.sleep(30);
-                } catch (InterruptedException e) {
-                    System.out.println("Thread sleeping interrupted:");
-                    e.printStackTrace();
-                }
             }
         }
     };
