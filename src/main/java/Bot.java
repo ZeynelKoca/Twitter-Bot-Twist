@@ -13,11 +13,10 @@ public class Bot {
     public static Twitter twitter;
     private static Twist twist;
 
-    private static int counter = 0;
-
     public static void main(String[] args) {
         twitter = new Config().getTwitterInstance();
         twist = Twist.getInstance();
+        twist.setTwitter(twitter);
         twist.isSiteWorking = true;
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
