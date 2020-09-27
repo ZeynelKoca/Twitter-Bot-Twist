@@ -17,19 +17,9 @@ public class Bot {
         twitter = new Config().getTwitterInstance();
         twist = Twist.getInstance();
         twist.setTwitter(twitter);
-        twist.isSiteWorking = true;
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(twistAnimeUpdateRunnable, 0, 10, TimeUnit.MINUTES);
-    }
-
-    public static void sendDirectMessage(String username, String message) {
-        try {
-            twitter.sendDirectMessage(username, message);
-            System.out.println("New direct message has been sent to " + username);
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
     }
 
     private static void sendTweet(String text) {
@@ -44,18 +34,20 @@ public class Bot {
 
     private static Runnable twistAnimeUpdateRunnable = new Runnable() {
         public void run() {
-            if (twist.isSiteWorking) {
-                if (twist.hasBeenUpdated()) {
-                    List<Item> items = twist.getUpdatedItems();
-                    for (Item item : items)
-                        sendTweet(item.description + " watch it @ " + item.link);
+            if (twist.hasBeenUpdated()) {
+                List<Item> updatedEpisodes = twist.getUpdatedItems().get(0);
+                List<Item> updatedAnime = twist.getUpdatedItems().get(1);
 
-                    twist.setLastUpdatedItem(twist.getItems().get(0));
+                if (updatedEpisodes.size() > 0) {
+                    for (Item item : updatedEpisodes)
+                        sendTweet(item.description + " watch it @ " + item.link);
                 }
-            } else {
-                System.out.println("CAN'T ACCESS TWIST.MOE");
-                sendDirectMessage("lolsisko", "Encountered an exception when trying to visit https://twist.moe/feed/episodes?format=json.");
+                if(updatedAnime.size() > 0){
+                    for(Item item : updatedAnime)
+                        sendTweet(item.title + " has just been added to Twist! Watch it @ " + item.link);
+                }
             }
+
         }
     };
 }

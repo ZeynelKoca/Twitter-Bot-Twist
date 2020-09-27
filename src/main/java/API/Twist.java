@@ -15,7 +15,6 @@ public class Twist {
     private Twitter twitter;
 
     private Item lastUpdatedItem;
-    public boolean isSiteWorking;
 
     public static Twist getInstance() {
         if (instance == null)
@@ -39,10 +38,8 @@ public class Twist {
             InputStreamReader reader = new InputStreamReader(base.openStream());
             Gson gson = new Gson();
             Page page = gson.fromJson(reader, Page.class);
-            this.isSiteWorking = true;
             return page.items;
         } catch (Exception e) {
-            this.isSiteWorking = false;
             sendDirectMessage("lolsisko", "Encountered an exception when trying to visit https://twist.moe/feed/episodes?format=json.");
             System.out.println("Site not working: ");
             e.printStackTrace();
@@ -61,7 +58,9 @@ public class Twist {
         return true;
     }
 
-    public List<Item> getUpdatedItems() {
+    // Index 0 = new episodes
+    // Index 1 = new anime
+    public List<List<Item>> getUpdatedItems() {
         List<Item> items = getItems();
         List<Item> updatedItems = new ArrayList<Item>();
         for (int i = 0; i < items.size(); i++) {
@@ -71,15 +70,51 @@ public class Twist {
                 break;
         }
 
-        return updatedItems;
+        List<List<Item>> result = new ArrayList<List<Item>>();
+        List<Item> updatedAnime = getUpdatedAnime(updatedItems);
+        if (updatedAnime.size() > 0) {
+            for (Item anime : updatedAnime) {
+                for (Item episode : updatedItems) {
+                    if (episode.id == anime.id)
+                        updatedItems.remove(episode);
+                }
+            }
+        }
+
+        result.add(updatedItems);
+        result.add(updatedAnime);
+
+        lastUpdatedItem = items.get(0);
+        return result;
     }
 
-    public void setLastUpdatedItem(Item item) {
-        this.lastUpdatedItem = item;
+    private List<Item> getUpdatedAnime(List<Item> updatedItems) {
+        List<Item> updatedAnime = new ArrayList<Item>();
+        int previousId = updatedItems.get(0).id;
+        int counter = 0;
+        for (int i = 1; i < updatedItems.size(); i++) {
+            Item currentItem = updatedItems.get(i);
+            if (currentItem.id == previousId)
+                counter++;
+
+            if (counter > 5 && !containsAnime(currentItem.id, updatedAnime)) {
+                currentItem.link = currentItem.link.substring(0, currentItem.link.lastIndexOf('/'));
+                updatedAnime.add(currentItem);
+                counter = 0;
+            }
+            previousId = currentItem.id;
+        }
+
+        return updatedAnime;
     }
 
-    public Item getLastUpdatedItem() {
-        return this.lastUpdatedItem;
+    private boolean containsAnime(int animeId, List<Item> list) {
+        for (Item item : list) {
+            if (item.id == animeId)
+                return true;
+        }
+
+        return false;
     }
 
     public void setTwitter(Twitter twitter) {
