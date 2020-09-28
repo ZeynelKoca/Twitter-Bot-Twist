@@ -35,6 +35,7 @@ public class Bot {
     private static Runnable twistAnimeUpdateRunnable = new Runnable() {
         public void run() {
             if (twist.hasBeenUpdated()) {
+                System.out.println("Updated");
                 List<Item> updatedEpisodes = twist.getUpdatedItems().get(0);
                 List<Item> updatedAnime = twist.getUpdatedItems().get(1);
 
