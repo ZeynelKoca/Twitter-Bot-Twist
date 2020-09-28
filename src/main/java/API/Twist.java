@@ -52,6 +52,8 @@ public class Twist {
         if (lastUpdatedItem == null)
             lastUpdatedItem = headerItem;
 
+        System.out.println("Last updated item: " + lastUpdatedItem.description);
+
         if (lastUpdatedItem.description.equalsIgnoreCase(headerItem.description))
             return false;
 
