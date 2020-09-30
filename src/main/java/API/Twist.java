@@ -79,18 +79,22 @@ public class Twist {
 
         System.out.println("before first updated items: " + updatedItems.get(0).description);
 
+        List<Item> itemsToRemove = new ArrayList<Item>();
+
         List<List<Item>> result = new ArrayList<List<Item>>();
         List<Item> updatedAnime = getUpdatedAnime(updatedItems);
         if (updatedAnime.size() > 0) {
-            System.out.println("Inside: " + updatedAnime.get(0));
+            System.out.println("Inside: " + updatedAnime.get(0).description + " and " + updatedAnime.size());
             for (Item anime : updatedAnime) {
-                System.out.println("Inside2");
+                System.out.println("Inside2 " + anime.description);
                 for (Item episode : updatedItems) {
-                    System.out.println("Inside3");
+                    System.out.println("Inside3 " + episode.description);
                     if (episode.id == anime.id)
-                        updatedItems.remove(episode);
+                        itemsToRemove.add(episode);
                 }
             }
+
+            updatedItems.removeAll(itemsToRemove);
         }
 
         System.out.println("after first updated items: " + updatedItems.get(0).description);
