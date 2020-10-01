@@ -40,6 +40,7 @@ public class Bot {
                 List<Item> updatedEpisodes = updatedItems.get(0);
                 List<Item> updatedAnime = updatedItems.get(1);
 
+                System.out.println("Before. Anime size: " + updatedAnime.size() + ". Episode size: " + updatedEpisodes.size());
                 if (updatedEpisodes.size() > 0) {
                     System.out.println("Here " + updatedEpisodes.get(0).id);
                     for (Item item : updatedEpisodes)

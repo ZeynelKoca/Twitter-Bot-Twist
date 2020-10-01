@@ -94,7 +94,9 @@ public class Twist {
                 }
             }
 
+            System.out.println("Before remove all size: " + updatedItems.size());
             updatedItems.removeAll(itemsToRemove);
+            System.out.println("After remove all size: " + updatedItems.size());
         }
 
         System.out.println("after first updated items: " + updatedItems.get(0).description);
