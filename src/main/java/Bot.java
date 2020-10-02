@@ -51,8 +51,9 @@ public class Bot {
                     for(Item item : updatedAnime)
                         sendTweet(item.title + " has just been added to Twist! Watch it @ " + item.link);
                 }
+            } else {
+                System.out.println("Not updated yet");
             }
-
         }
     };
 }
