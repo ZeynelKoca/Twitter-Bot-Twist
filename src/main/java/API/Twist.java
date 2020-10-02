@@ -57,7 +57,7 @@ public class Twist {
         if (lastUpdatedItem == null)
             lastUpdatedItem = headerItem;
 
-        System.out.println("Last updated item: " + lastUpdatedItem.description);
+        //System.out.println("Last updated item: " + lastUpdatedItem.description);
 
         if (lastUpdatedItem.description.equalsIgnoreCase(headerItem.description))
             return false;
@@ -77,35 +77,35 @@ public class Twist {
                 break;
         }
 
-        System.out.println("before first updated items: " + updatedItems.get(0).description);
+        //System.out.println("before first updated items: " + updatedItems.get(0).description);
 
         List<Item> itemsToRemove = new ArrayList<Item>();
 
         List<List<Item>> result = new ArrayList<List<Item>>();
         List<Item> updatedAnime = getUpdatedAnime(updatedItems);
         if (updatedAnime.size() > 0) {
-            System.out.println("Inside: " + updatedAnime.get(0).description + " and " + updatedAnime.size());
+            //System.out.println("Inside: " + updatedAnime.get(0).description + " and " + updatedAnime.size());
             for (Item anime : updatedAnime) {
-                System.out.println("Inside2 " + anime.description);
+                //System.out.println("Inside2 " + anime.description);
                 for (Item episode : updatedItems) {
-                    System.out.println("Inside3 " + episode.description);
+                    //System.out.println("Inside3 " + episode.description);
                     if (episode.id == anime.id)
                         itemsToRemove.add(episode);
                 }
             }
 
-            System.out.println("Before remove all size: " + updatedItems.size());
+            //System.out.println("Before remove all size: " + updatedItems.size());
             updatedItems.removeAll(itemsToRemove);
-            System.out.println("After remove all size: " + updatedItems.size());
+            //System.out.println("After remove all size: " + updatedItems.size());
         }
 
-        System.out.println("after first updated items: " + updatedItems.get(0).description);
+        //System.out.println("after first updated items: " + updatedItems.get(0).description);
 
         result.add(updatedItems);
         result.add(updatedAnime);
 
         lastUpdatedItem = items.get(0);
-        System.out.println("new lastUpdatedItem: " + lastUpdatedItem.description);
+        //System.out.println("new lastUpdatedItem: " + lastUpdatedItem.description);
         return result;
     }
 
