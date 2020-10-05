@@ -24,16 +24,16 @@ public class Twist {
         return instance;
     }
 
-    private void sendDirectMessage(String username, String message) {
+    private void sendExceptionDM() {
         try {
-            twitter.sendDirectMessage(username, message);
-            System.out.println("New direct message has been sent to " + username);
+            twitter.sendDirectMessage("lolsisko", "Encountered an exception when trying to visit https://twist.moe/feed/episodes?format=json.");
+            System.out.println("New direct message has been sent to " + "lolsisko");
         } catch (TwitterException e) {
             e.printStackTrace();
         }
     }
 
-    public List<Item> getItems() {
+    private List<Item> getItems() {
         try {
             URL base = new URL("https://twist.moe/feed/episodes?format=json");
             InputStreamReader reader = new InputStreamReader(base.openStream());
@@ -41,8 +41,8 @@ public class Twist {
             Page page = gson.fromJson(reader, Page.class);
             return page.items;
         } catch (Exception e) {
-            sendDirectMessage("lolsisko", "Encountered an exception when trying to visit https://twist.moe/feed/episodes?format=json.");
             System.out.println("Site not working. Can't visit https://twist.moe/feed/episodes?format=json.");
+            sendExceptionDM();
             try {
                 TimeUnit.MINUTES.sleep(30);
             } catch (InterruptedException ex) {
@@ -57,12 +57,7 @@ public class Twist {
         if (lastUpdatedItem == null)
             lastUpdatedItem = headerItem;
 
-        //System.out.println("Last updated item: " + lastUpdatedItem.description);
-
-        if (lastUpdatedItem.description.equalsIgnoreCase(headerItem.description))
-            return false;
-
-        return true;
+        return !lastUpdatedItem.description.equalsIgnoreCase(headerItem.description);
     }
 
     // Index 0 = new episodes
@@ -77,35 +72,23 @@ public class Twist {
                 break;
         }
 
-        //System.out.println("before first updated items: " + updatedItems.get(0).description);
-
         List<Item> itemsToRemove = new ArrayList<Item>();
 
         List<List<Item>> result = new ArrayList<List<Item>>();
         List<Item> updatedAnime = getUpdatedAnime(updatedItems);
         if (updatedAnime.size() > 0) {
-            //System.out.println("Inside: " + updatedAnime.get(0).description + " and " + updatedAnime.size());
             for (Item anime : updatedAnime) {
-                //System.out.println("Inside2 " + anime.description);
                 for (Item episode : updatedItems) {
-                    //System.out.println("Inside3 " + episode.description);
                     if (episode.id == anime.id)
                         itemsToRemove.add(episode);
                 }
             }
-
-            //System.out.println("Before remove all size: " + updatedItems.size());
             updatedItems.removeAll(itemsToRemove);
-            //System.out.println("After remove all size: " + updatedItems.size());
         }
-
-        //System.out.println("after first updated items: " + updatedItems.get(0).description);
-
         result.add(updatedItems);
         result.add(updatedAnime);
 
         lastUpdatedItem = items.get(0);
-        //System.out.println("new lastUpdatedItem: " + lastUpdatedItem.description);
         return result;
     }
 

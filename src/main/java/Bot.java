@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Bot {
 
-    public static Twitter twitter;
+    private static Twitter twitter;
     private static Twist twist;
 
     public static void main(String[] args) {
@@ -19,7 +19,7 @@ public class Bot {
         twist.setTwitter(twitter);
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(twistAnimeUpdateRunnable, 0, 10, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(twistAnimeUpdateRunnable, 0, 5, TimeUnit.MINUTES);
     }
 
     private static void sendTweet(String text) {
@@ -40,19 +40,14 @@ public class Bot {
                 List<Item> updatedEpisodes = updatedItems.get(0);
                 List<Item> updatedAnime = updatedItems.get(1);
 
-                //System.out.println("Before. Anime size: " + updatedAnime.size() + ". Episode size: " + updatedEpisodes.size());
                 if (updatedEpisodes.size() > 0) {
-                    //System.out.println("Here " + updatedEpisodes.get(0).id);
                     for (Item item : updatedEpisodes)
                         sendTweet(item.description + " watch it @ " + item.link);
                 }
                 if(updatedAnime.size() > 0){
-                    //System.out.println("Here2: " + updatedAnime.get(0).id);
                     for(Item item : updatedAnime)
                         sendTweet(item.title + " has just been added to Twist! Watch it @ " + item.link);
                 }
-            } else {
-                System.out.println("Not updated yet");
             }
         }
     };
