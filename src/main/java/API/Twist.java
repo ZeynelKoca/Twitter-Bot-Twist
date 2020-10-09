@@ -24,7 +24,7 @@ public class Twist {
         return instance;
     }
 
-    private void sendExceptionDM() {
+    private void sendWebsiteExceptionDm() {
         try {
             twitter.sendDirectMessage("lolsisko", "Encountered an exception when trying to visit https://twist.moe/feed/episodes?format=json.");
             System.out.println("New direct message has been sent to " + "lolsisko");
@@ -42,7 +42,7 @@ public class Twist {
             return page.items;
         } catch (Exception e) {
             System.out.println("Site not working. Can't visit https://twist.moe/feed/episodes?format=json.");
-            sendExceptionDM();
+            sendWebsiteExceptionDm();
             try {
                 TimeUnit.MINUTES.sleep(30);
             } catch (InterruptedException ex) {

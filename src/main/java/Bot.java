@@ -27,7 +27,16 @@ public class Bot {
             twitter.updateStatus(text);
             System.out.println("New tweet has been sent: " + text);
         } catch (TwitterException e) {
-            System.out.println("Twitter Exception:");
+            sendTwitterExceptionDM();
+            System.out.println("Twitter Exception for '" + text + "' :");
+            e.printStackTrace();
+        }
+    }
+
+    private static void sendTwitterExceptionDM(){
+        try {
+            twitter.sendDirectMessage("lolsisko", "Encountered a TwitterException. The bot is still running but check the logs just in case.");
+        } catch (TwitterException e) {
             e.printStackTrace();
         }
     }
