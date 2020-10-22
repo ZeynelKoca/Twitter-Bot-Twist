@@ -16,7 +16,6 @@ public class Bot {
     public static void main(String[] args) {
         twitter = new Config().getTwitterInstance();
         twist = Twist.getInstance();
-        twist.setTwitter(twitter);
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(twistAnimeUpdateRunnable, 0, 5, TimeUnit.MINUTES);
@@ -35,7 +34,7 @@ public class Bot {
 
     private static void sendTwitterExceptionDM(){
         try {
-            twitter.sendDirectMessage("lolsisko", "Encountered a TwitterException. The bot is still running but check the logs just in case.");
+            twitter.sendDirectMessage("lolsisko", "Encountered a TwitterException. Check the logs and restart the worker.");
         } catch (TwitterException e) {
             e.printStackTrace();
         }

@@ -1,8 +1,6 @@
 package API;
 
 import com.google.gson.Gson;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
 
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -13,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 public class Twist {
 
     private static Twist instance;
-    private Twitter twitter;
 
     private Item lastUpdatedItem;
 
@@ -22,15 +19,6 @@ public class Twist {
             instance = new Twist();
 
         return instance;
-    }
-
-    private void sendWebsiteExceptionDm() {
-        try {
-            twitter.sendDirectMessage("lolsisko", "Encountered an exception when trying to visit https://twist.moe/feed/episodes?format=json.");
-            System.out.println("New direct message has been sent to " + "lolsisko");
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
     }
 
     private List<Item> getItems() {
@@ -42,7 +30,6 @@ public class Twist {
             return page.items;
         } catch (Exception e) {
             System.out.println("Site not working. Can't visit https://twist.moe/feed/episodes?format=json.");
-            sendWebsiteExceptionDm();
             try {
                 TimeUnit.MINUTES.sleep(30);
             } catch (InterruptedException ex) {
@@ -119,9 +106,5 @@ public class Twist {
         }
 
         return false;
-    }
-
-    public void setTwitter(Twitter twitter) {
-        this.twitter = twitter;
     }
 }
