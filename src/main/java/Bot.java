@@ -57,6 +57,8 @@ public class Bot {
                         sendTweet(item.title + " has just been added to Twist! Watch it @ " + item.link);
                 }
             }
+
+            System.out.println("No new updates..");
         }
     };
 }
