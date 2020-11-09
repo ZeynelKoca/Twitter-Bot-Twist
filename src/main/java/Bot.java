@@ -34,7 +34,7 @@ public class Bot {
 
     private static void sendTwitterExceptionDM(){
         try {
-            twitter.sendDirectMessage("lolsisko", "Encountered a TwitterException. Check the logs and restart the worker.");
+            twitter.sendDirectMessage("lolsisko", "Encountered a TwitterException. Check the logs.");
         } catch (TwitterException e) {
             e.printStackTrace();
         }
