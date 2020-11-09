@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Item {
     @SerializedName("animetwist:id")
-    public int id;
+    int id;
     @SerializedName("anime:title")
     public String title;
 

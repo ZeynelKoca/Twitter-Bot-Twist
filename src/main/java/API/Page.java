@@ -2,6 +2,6 @@ package API;
 
 import java.util.List;
 
-public class Page {
+class Page {
     List<Item> items;
 }

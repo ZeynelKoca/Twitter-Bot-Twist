@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class Twist {
 
@@ -29,29 +28,33 @@ public class Twist {
             Page page = gson.fromJson(reader, Page.class);
             return page.items;
         } catch (Exception e) {
-            System.out.println("Site not working. Can't visit https://twist.moe/feed/episodes?format=json.");
+            System.out.println("Site not working:");
             e.printStackTrace();
-            try {
-                TimeUnit.MINUTES.sleep(30);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
             return null;
         }
     }
 
     public boolean hasBeenUpdated() {
-        Item headerItem = getItems().get(0);
+        List<Item> items = getItems();
+        if(items == null)
+            return false;
+
+        Item headerItem = items.get(0);
         if (lastUpdatedItem == null)
             lastUpdatedItem = headerItem;
 
         return !lastUpdatedItem.description.equalsIgnoreCase(headerItem.description);
     }
 
-    // Index 0 = new episodes
-    // Index 1 = new anime
+    /// Index 0 = new episodes
+    /// Index 1 = new anime
     public List<List<Item>> getUpdatedItems() {
         List<Item> items = getItems();
+        if(items == null){
+            // Return empty list.
+            return new ArrayList<List<Item>>();
+        }
+
         List<Item> updatedItems = new ArrayList<Item>();
         for (Item item : items) {
             if (!item.description.equalsIgnoreCase(lastUpdatedItem.description))
@@ -60,6 +63,11 @@ public class Twist {
                 break;
         }
 
+        lastUpdatedItem = items.get(0);
+        return separateEpisodesAndAnime(updatedItems);
+    }
+
+    private List<List<Item>> separateEpisodesAndAnime(List<Item> updatedItems){
         List<Item> itemsToRemove = new ArrayList<Item>();
 
         List<List<Item>> result = new ArrayList<List<Item>>();
@@ -76,7 +84,6 @@ public class Twist {
         result.add(updatedItems);
         result.add(updatedAnime);
 
-        lastUpdatedItem = items.get(0);
         return result;
     }
 
