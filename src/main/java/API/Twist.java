@@ -96,7 +96,7 @@ public class Twist {
             if (currentItem.id == previousId)
                 counter++;
 
-            if (counter > 5 && !containsAnime(currentItem.id, updatedAnime)) {
+            if (counter >= 4 && !containsAnime(currentItem.id, updatedAnime)) {
                 currentItem.link = currentItem.link.substring(0, currentItem.link.lastIndexOf('/'));
                 updatedAnime.add(currentItem);
                 counter = 0;
